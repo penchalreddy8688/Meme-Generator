@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meme Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #memeResult {
+      margin-top: 20px;
+      display: none;
+    }
+    #memeImage {
+      max-width: 500px;
+      border: 3px solid #333;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Meme Generator</h1>
+
+  <form id="memeForm">
+    <input type="file" name="file" accept="image/*" required><br>
+    <input type="text" name="top_text" placeholder="Top Text"><br>
+    <input type="text" name="bottom_text" placeholder="Bottom Text"><br>
+    <button type="submit">Generate Meme</button>
+  </form>
+
+  <div id="memeResult">
+    <h2>Your Meme:</h2>
+    <img id="memeImage" src="">
+    <p><a id="memeLink" href="#" target="_blank">🔗 Open Meme in New Tab</a></p>
+  </div>
+
+  <script>
+    document.getElementById("memeForm").onsubmit = async (e) => {
+      e.preventDefault();
+
+      let formData = new FormData(e.target);
+
+      let res = await fetch("/generate-meme/", {
+        method: "POST",
+        body: formData
+      });
+
+      let data = await res.json();
+
+      if (data.meme_url) {
+        document.getElementById("memeResult").style.display = "block";
+        document.getElementById("memeImage").src = data.meme_url;
+        document.getElementById("memeLink").href = data.meme_url;
+      }
+    };
+  </script>
+</body>
+</html>
+
+
+
+
+ 
+
+ 
+
+
+
+
+
